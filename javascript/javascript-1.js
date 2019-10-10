@@ -2,16 +2,17 @@
 
 const sum = (a) => {
   if(typeof a !== 'number') {
-    throw('Argument must be a number');
+    throw new Error('Argument must be a number');
   }
   
   return (b) => {
-    if(!b) { return a };
+    if(typeof b !== 'number') { return a };
 
     return sum(a + b);
   }; 
 }
 
+console.log(sum(0)(1)(2)() === 3);
 console.log(sum(1)() === 1);
 console.log(sum(1)(2)() === 3);
 console.log(sum(1)(2)(3)() === 6);
