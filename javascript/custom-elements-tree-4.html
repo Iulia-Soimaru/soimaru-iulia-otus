@@ -1,0 +1,51 @@
+<html>
+  <head></head>
+  <body>
+    <h3>Hello, this is my page</h3>
+    <h3>Using Custom Elements</h3>
+  </body>
+  <script>
+    const jsonStructure = {
+      "id": 1,
+      "items": [{
+        "id": 2,
+        "items": [{ "id": 3 }]
+      }]
+    };
+
+    // Register new element
+    class MyTree extends HTMLElement {
+      constructor() {
+        // Always call super first in constructor
+        super();
+
+        // Create a shadow root
+        this.attachShadow({mode: 'open'});
+      }
+    };
+
+    customElements.define('my-tree', MyTree);
+
+    // Add Custom element to the DOM
+    const myTree = new MyTree();
+    myTree.shadowRoot;
+    document.body.appendChild(myTree);
+
+    let { id, items } = jsonStructure;
+    let div;
+    let parent = myTree;
+
+    while(id) {
+      // Append child element to the DOM
+      div = document.createElement('div');
+      div.setAttribute('id', id);
+      div.innerHTML = `child element with id: ${id}`;
+      parent.appendChild(div);
+
+      // Reassign variables
+      id = items[0].id;
+      items = items[0].items;
+      parent = div;
+    }
+  </script>
+</html>
